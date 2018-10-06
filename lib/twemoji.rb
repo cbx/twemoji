@@ -140,10 +140,11 @@ module Twemoji
   #
   # @return [RegExp] A Regular expression consists of all emojis unicode codepoint and names.
   def self.emoji_pattern_all
-    names = codes.keys.map { |name| Regexp.quote(name) }.join("|")
-    codepoints = sorted_codepoint_values.map { |name| Regexp.quote(name.split('-').collect {|n| n.hex}.pack("U*")) }.join("|")
-
-    @emoji_pattern_all ||= /(#{names}|#{codepoints})/
+    @emoji_pattern_all ||= begin
+                             names = codes.keys.map { |name| Regexp.quote(name) }.join("|")
+                             codepoints = sorted_codepoint_values.map { |name| Regexp.quote(name.split('-').collect {|n| n.hex}.pack("U*")) }.join("|")
+                             /(#{names}|#{codepoints})/
+                           end
   end
 
   private
